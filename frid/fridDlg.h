@@ -20,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CFridDlg)
 	enum { IDD = IDD_FRID_DIALOG };
-		// NOTE: the ClassWizard will add data members here
+	CEdit	m_Key;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
@@ -39,6 +39,9 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg void OnRada();
+	afx_msg void OnRadb();
+	afx_msg void OnBUTkey();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

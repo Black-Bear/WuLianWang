@@ -28,7 +28,9 @@ Type=0
 HeaderFile=fridDlg.h
 ImplementationFile=fridDlg.cpp
 Filter=D
-LastObject=IDC_STA2
+LastObject=CFridDlg
+BaseClass=CDialog
+VirtualFilter=dWC
 
 [CLS:CAboutDlg]
 Type=0
