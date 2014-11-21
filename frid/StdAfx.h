@@ -25,3 +25,5 @@
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__FD93FEEF_AF25_4F3C_A248_9E561FDE4CF9__INCLUDED_)
+
+#include "ZM124U.h"

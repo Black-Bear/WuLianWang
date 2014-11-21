@@ -1,6 +1,7 @@
 // fridDlg.h : header file
 //
 
+#include "afxwin.h"
 #if !defined(AFX_FRIDDLG_H__8F746348_6D19_4E7D_BDD6_44A76D2745EB__INCLUDED_)
 #define AFX_FRIDDLG_H__8F746348_6D19_4E7D_BDD6_44A76D2745EB__INCLUDED_
 
@@ -44,6 +45,40 @@ protected:
 	afx_msg void OnBUTkey();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedSta2();
+	afx_msg void OnEnChangeEdit1();
+
+
+
+
+
+
+	
+
+	
+
+
+	// 电子钱包－扇区
+	CComboBox m_EMSectorCtrl;
+	// 电子钱包－块号
+	CComboBox m_EMSectionCtrl;
+	// 电子钱包－余额
+	CEdit m_EMBalanceCtrl;
+	// 充值金额
+	CEdit m_EMRechargeMoneyCtrl;
+	// 扣款金额
+	CEdit m_EMPayMoneyCtrl;
+	// 电子钱包－状态
+	CEdit m_EMStatueCtrl;
+
+	// 电子钱包－查询余额
+	afx_msg void OnBnClickedButton2EmQueryBalance();
+	// 电子钱包－钱包初始化
+	afx_msg void OnBnClickedButton1EmInit();
+	afx_msg void OnBnClickedButton3EmRecharge();
+	afx_msg void OnBnClickedButton4EmPay();
+
 };
 
 //{{AFX_INSERT_LOCATION}}

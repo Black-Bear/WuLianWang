@@ -72,8 +72,19 @@ void CFridDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CFridDlg)
+
+	// NOTE: the ClassWizard will add DDX and DDV calls here
+
 	DDX_Control(pDX, IDC_EDIkey, m_Key);
+
 	//}}AFX_DATA_MAP
+
+	DDX_Control(pDX, IDC_EDIT2_EM, m_EMRechargeMoneyCtrl);
+	DDX_Control(pDX, IDC_EDIT3_EM, m_EMPayMoneyCtrl);
+	DDX_Control(pDX, IDC_EDIT4_EM, m_EMStatueCtrl);
+	DDX_Control(pDX, IDC_COMBO2_EM, m_EMSectorCtrl);
+	DDX_Control(pDX, IDC_COMBO1_EM, m_EMSectionCtrl);
+	DDX_Control(pDX, IDC_EDIT1_EM, m_EMBalanceCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CFridDlg, CDialog)
@@ -85,6 +96,10 @@ BEGIN_MESSAGE_MAP(CFridDlg, CDialog)
 	ON_BN_CLICKED(IDC_RADB, OnRadb)
 	ON_BN_CLICKED(IDC_BUTkey, OnBUTkey)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_BUTTON2_EM, &CFridDlg::OnBnClickedButton2EmQueryBalance)
+	ON_BN_CLICKED(IDC_BUTTON1_EM, &CFridDlg::OnBnClickedButton1EmInit)
+	ON_BN_CLICKED(IDC_BUTTON3_EM, &CFridDlg::OnBnClickedButton3EmRecharge)
+	ON_BN_CLICKED(IDC_BUTTON4_EM, &CFridDlg::OnBnClickedButton4EmPay)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -170,6 +185,61 @@ HCURSOR CFridDlg::OnQueryDragIcon()
 {
 	return (HCURSOR) m_hIcon;
 }
+
+
+
+
+
+
+
+
+
+
+// 电子钱包－钱包初始化
+void CFridDlg::OnBnClickedButton1EmInit()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_EMRechargeMoneyCtrl.SetWindowText(_T(""));
+	m_EMPayMoneyCtrl.SetWindowText(_T(""));
+	m_EMStatueCtrl.SetWindowText(_T(""));
+	m_EMSectorCtrl.SetCurSel(-1);
+	m_EMSectionCtrl.SetCurSel(-1);
+	m_EMBalanceCtrl.SetWindowText(_T(""));
+}
+
+// 电子钱包－查询余额
+void CFridDlg::OnBnClickedButton2EmQueryBalance()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+
+}
+
+// 电子钱包－充值
+void CFridDlg::OnBnClickedButton3EmRecharge()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString strPage;
+	m_EMSectorCtrl.GetWindowText(strPage);
+
+	CString strBlock;
+	m_EMSectionCtrl.GetWindowText(strBlock);
+
+	unsigned char pswtype = 0x0A;
+	unsigned char psw[] = "0xFFFFFFFFFFFF";
+
+	CString strAccount;
+	m_EMRechargeMoneyCtrl.GetWindowText(strAccount);
+
+	int rst = add_account(atoi(strPage),atoi(strBlock),pswtype,psw,atoi(strAccount));
+}
+
+// 电子钱包－扣款
+void CFridDlg::OnBnClickedButton4EmPay()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
 bool Ra=0;
 bool Rb=0;
 
@@ -202,3 +272,4 @@ void CFridDlg::OnBUTkey()
 	else{m_Key="0";}
 	
 }*/
+
