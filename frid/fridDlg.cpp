@@ -211,7 +211,20 @@ void CFridDlg::OnBnClickedButton1EmInit()
 void CFridDlg::OnBnClickedButton2EmQueryBalance()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	CString strPage;
+	m_EMSectorCtrl.GetWindowText(strPage);
 
+	CString strBlock;
+	m_EMSectionCtrl.GetWindowText(strBlock);
+
+	unsigned char pswtype = 0x0A;
+	unsigned char psw[] = "0xFFFFFFFFFFFF";
+
+	CString strMoney;
+	m_EMRechargeMoneyCtrl.GetWindowText(strMoney);
+	long lMoney = atol(strMoney);
+
+	int rst = read_account(atoi(strPage),atoi(strBlock),pswtype,psw,&lMoney);
 
 }
 
@@ -238,6 +251,20 @@ void CFridDlg::OnBnClickedButton3EmRecharge()
 void CFridDlg::OnBnClickedButton4EmPay()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	CString strPage;
+	m_EMSectorCtrl.GetWindowText(strPage);
+
+	CString strBlock;
+	m_EMSectionCtrl.GetWindowText(strBlock);
+
+	unsigned char pswtype = 0x0A;
+	unsigned char psw[] = "0xFFFFFFFFFFFF";
+
+
+	CString strPay;
+	m_EMPayMoneyCtrl.GetWindowText(strPay);
+
+	int rst = sub_account(atoi(strPage),atoi(strBlock),pswtype,psw,atoi(strPay));
 }
 
 bool Ra=0;
