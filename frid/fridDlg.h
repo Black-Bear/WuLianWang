@@ -21,6 +21,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CFridDlg)
 	enum { IDD = IDD_FRID_DIALOG };
+	CButton	m_uid;
+	CButton	m_open;
 	CEdit	m_Key;
 	//}}AFX_DATA
 
@@ -43,6 +45,8 @@ protected:
 	afx_msg void OnRada();
 	afx_msg void OnRadb();
 	afx_msg void OnBUTkey();
+	afx_msg void OnButnOpen();
+	afx_msg void OnButnUid();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:

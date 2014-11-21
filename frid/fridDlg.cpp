@@ -11,6 +11,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
@@ -72,11 +73,9 @@ void CFridDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CFridDlg)
-
-	// NOTE: the ClassWizard will add DDX and DDV calls here
-
+	DDX_Control(pDX, IDC_BUTN_UID, m_uid);
+	DDX_Control(pDX, IDC_BUTN_OPEN, m_open);
 	DDX_Control(pDX, IDC_EDIkey, m_Key);
-
 	//}}AFX_DATA_MAP
 
 	DDX_Control(pDX, IDC_EDIT2_EM, m_EMRechargeMoneyCtrl);
@@ -95,6 +94,8 @@ BEGIN_MESSAGE_MAP(CFridDlg, CDialog)
 	ON_BN_CLICKED(IDC_RADA, OnRada)
 	ON_BN_CLICKED(IDC_RADB, OnRadb)
 	ON_BN_CLICKED(IDC_BUTkey, OnBUTkey)
+	ON_BN_CLICKED(IDC_BUTN_OPEN, OnButnOpen)
+	ON_BN_CLICKED(IDC_BUTN_UID, OnButnUid)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON2_EM, CFridDlg::OnBnClickedButton2EmQueryBalance)
 	ON_BN_CLICKED(IDC_BUTTON1_EM, CFridDlg::OnBnClickedButton1EmInit)
@@ -185,7 +186,6 @@ HCURSOR CFridDlg::OnQueryDragIcon()
 {
 	return (HCURSOR) m_hIcon;
 }
-
 
 
 
@@ -300,3 +300,37 @@ void CFridDlg::OnBUTkey()
 	
 }*/
 
+
+void CFridDlg::OnButnOpen() 
+{
+	// TODO: Add your control notification handler code here
+		int j=IDD_PowerOn();
+	if(j==0)
+		m_open.SetWindowText("开启设备成功！");
+	else
+		m_open.SetWindowText("开启设备失败！");
+}
+
+void CFridDlg::OnButnUid() 
+{
+	// TODO: Add your control notification handler code here
+	CString s,s1;
+	unsigned char buff[1024];
+	int buff_len;
+
+	int j=find_14443(buff,&buff_len);
+	if(0==j)
+	{
+	  s.Empty();
+	  for(int i=0;i<buff_len;i++)
+	  {
+		  s1.Format("%02x",buff[i]);
+		  s+=s1;
+	  }
+	  m_uid.SetWindowText(s);
+	}
+	else
+	{
+	   m_uid.SetWindowText("获取UID失败");
+	}
+}

@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+//Microsoft Developer Studio generated resource script.
 //
 #include "resource.h"
 
@@ -13,11 +13,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文(简体，中国) resources
+// Chinese (中国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
+#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -25,18 +27,18 @@ LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -64,15 +66,15 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\frid.ico"
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\frid.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG 0, 0, 235, 55
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "关于 frid"
 FONT 9, "宋体"
 BEGIN
@@ -83,17 +85,19 @@ BEGIN
 END
 
 IDD_FRID_DIALOG DIALOGEX 0, 0, 596, 397
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "frid"
-FONT 9, "宋体", 0, 0, 0x1
+FONT 9, "宋体"
 BEGIN
-    CONTROL         "秘钥A",IDC_RADA,"Button",BS_AUTORADIOBUTTON,63,27,36,10
-    CONTROL         "秘钥B",IDC_RADB,"Button",BS_AUTORADIOBUTTON,115,27,36,10
-    LTEXT           "秘钥：",IDC_STAkey,15,48,25,8
-    EDITTEXT        IDC_EDIkey,49,44,130,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "默认秘钥",IDC_BUTkey,183,42,50,14
-    GROUPBOX        "秘钥设置",IDC_STA2,7,15,233,59
+    CONTROL         "秘钥A",IDC_RADA,"Button",BS_AUTORADIOBUTTON,367,40,36,
+                    10
+    CONTROL         "秘钥B",IDC_RADB,"Button",BS_AUTORADIOBUTTON,419,40,36,
+                    10
+    LTEXT           "秘钥：",IDC_STAkey,319,61,25,8
+    EDITTEXT        IDC_EDIkey,353,57,130,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "默认秘钥",IDC_BUTkey,487,55,50,14
+    GROUPBOX        "秘钥设置",IDC_STA2,311,28,233,59
     GROUPBOX        "电子钱包",IDC_STATIC,268,144,307,229
     LTEXT           "扇区：",IDC_STATIC,294,164,25,8
     LTEXT           "块号：",IDC_STATIC,431,165,25,8
@@ -109,11 +113,21 @@ BEGIN
     PUSHBUTTON      "扣款",IDC_BUTTON4_EM,511,293,50,14
     LTEXT           "金额：",IDC_STATIC,275,299,25,8
     LTEXT           "状态：",IDC_STATIC,275,327,25,8
-    COMBOBOX        IDC_COMBO1_EM,462,161,48,44,CBS_DROPDOWNLIST | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO2_EM,317,161,48,58,CBS_DROPDOWNLIST | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO1_EM,462,161,48,44,CBS_DROPDOWNLIST | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2_EM,317,161,48,58,CBS_DROPDOWNLIST | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "状态：",IDC_STATIC,35,37,34,17
+    LTEXT           "序列号：",IDC_STATIC,35,71,35,22
+    EDITTEXT        IDC_EDIT_OPEN,87,33,50,16,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_UID,87,69,53,18,ES_AUTOHSCROLL
+    PUSHBUTTON      "开启设备",IDC_BUTN_OPEN,165,31,52,20
+    PUSHBUTTON      "寻卡",IDC_BUTN_UID,165,68,51,20
+    GROUPBOX        "开启卡片",IDC_STATIC,19,18,220,88
 END
 
 
+#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -136,13 +150,13 @@ BEGIN
     BEGIN
         BLOCK "080404B0"
         BEGIN
-            VALUE "FileDescription", "frid Microsoft 基础类应用程序"
-            VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "frid"
-            VALUE "LegalCopyright", "版权所有 (C) 2014"
-            VALUE "OriginalFilename", "frid.EXE"
-            VALUE "ProductName", "frid 应用程序"
-            VALUE "ProductVersion", "1, 0, 0, 1"
+            VALUE "FileDescription", "frid Microsoft 基础类应用程序\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "frid\0"
+            VALUE "LegalCopyright", "版权所有 (C) 2014\0"
+            VALUE "OriginalFilename", "frid.EXE\0"
+            VALUE "ProductName", "frid 应用程序\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -151,6 +165,8 @@ BEGIN
     END
 END
 
+#endif    // !_MAC
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -158,7 +174,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO MOVEABLE PURE 
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -229,12 +245,12 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE DISCARDABLE 
 BEGIN
     IDS_ABOUTBOX            "关于 frid(&A)..."
 END
 
-#endif    // 中文(简体，中国) resources
+#endif    // Chinese (中国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

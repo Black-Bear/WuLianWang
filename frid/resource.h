@@ -1,5 +1,5 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
+// Microsoft Developer Studio generated include file.
 // Used by frid.rc
 //
 #define IDM_ABOUTBOX                    0x0010
@@ -7,6 +7,10 @@
 #define IDS_ABOUTBOX                    101
 #define IDD_FRID_DIALOG                 102
 #define IDR_MAINFRAME                   128
+#define IDC_EDIT_OPEN                   1000
+#define IDC_EDIT_UID                    1001
+#define IDC_BUTN_OPEN                   1002
+#define IDC_BUTN_UID                    1003
 #define IDC_RADA                        1004
 #define IDC_RADB                        1005
 #define IDC_EDIkey                      1006
