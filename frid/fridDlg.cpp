@@ -96,10 +96,10 @@ BEGIN_MESSAGE_MAP(CFridDlg, CDialog)
 	ON_BN_CLICKED(IDC_RADB, OnRadb)
 	ON_BN_CLICKED(IDC_BUTkey, OnBUTkey)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_BUTTON2_EM, &CFridDlg::OnBnClickedButton2EmQueryBalance)
-	ON_BN_CLICKED(IDC_BUTTON1_EM, &CFridDlg::OnBnClickedButton1EmInit)
-	ON_BN_CLICKED(IDC_BUTTON3_EM, &CFridDlg::OnBnClickedButton3EmRecharge)
-	ON_BN_CLICKED(IDC_BUTTON4_EM, &CFridDlg::OnBnClickedButton4EmPay)
+	ON_BN_CLICKED(IDC_BUTTON2_EM, CFridDlg::OnBnClickedButton2EmQueryBalance)
+	ON_BN_CLICKED(IDC_BUTTON1_EM, CFridDlg::OnBnClickedButton1EmInit)
+	ON_BN_CLICKED(IDC_BUTTON3_EM, CFridDlg::OnBnClickedButton3EmRecharge)
+	ON_BN_CLICKED(IDC_BUTTON4_EM, CFridDlg::OnBnClickedButton4EmPay)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
