@@ -69,6 +69,10 @@ CFridDlg::CFridDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	Ra = 0;
+	Rb = 0;
+
 }
 
 void CFridDlg::DoDataExchange(CDataExchange* pDX)
@@ -195,10 +199,153 @@ HCURSOR CFridDlg::OnQueryDragIcon()
 }
 
 
+BOOL CFridDlg::ErrMsg(const int resultCode)
+{
+	if (0 == resultCode)
+		return TRUE;
+
+	switch (resultCode)
+	{
+	case -1:
+		{
+			AfxMessageBox(_T("卡片类型不对"));
+		}break;
+
+	case -2:
+		{
+			AfxMessageBox(_T("无卡"));
+		}break;
+	case -3:
+		{
+			AfxMessageBox(_T("有卡未上电"));
+		}break;
+
+	case -4:
+		{
+			AfxMessageBox(_T("卡片无应答"));
+		}break;
+
+	case -5:
+		{
+			AfxMessageBox(_T("BCC校验错误"));
+		}break;
+
+	case -6:
+		{
+			AfxMessageBox(_T("接收超时"));
+		}break;
+
+	case -7:
+		{
+			AfxMessageBox(_T("执行失败"));
+		}break;
+
+	case -8:
+		{
+			AfxMessageBox(_T("卡片位置错误"));
+		}break;
+
+	case -9:
+		{
+			AfxMessageBox(_T("设置失败"));
+		}break;
+
+	case -10:
+		{
+			AfxMessageBox(_T("无卡"));
+		}break;
+
+	case -11:
+		{
+			AfxMessageBox(_T("读卡器连接错"));
+		}break;
+
+	case -12:
+		{
+			AfxMessageBox(_T("未建立连接(没有执行打开设备函数)"));
+		}break;
+
+	case -13:
+		{
+			AfxMessageBox(_T("(动态库)不支持该命令"));
+		}break;
+
+	case -14:
+		{
+			AfxMessageBox(_T("(发给动态库的)命令参数错"));
+		}break;
+
+	case -15:
+		{
+			AfxMessageBox(_T("信息校验和出错"));
+		}break;
+
+	case -16:
+		{
+			AfxMessageBox(_T("卡片上电失败"));
+		}break;
+
+	case -17:
+		{
+			AfxMessageBox(_T("卡片复位失败"));
+		}break;
+
+	case -18:
+		{
+			AfxMessageBox(_T("卡片下电失败"));
+		}break;
+
+	default:
+		{
+			AfxMessageBox(_T("未知错误！"));
+		}break;
+
+	}
+
+	return FALSE;
+}
 
 
+BOOL CFridDlg::GetPswData(unsigned char& pswType,unsigned char* pswBuf,const int bufLen)
+{
+	int radioNum = GetCheckedRadioButton(IDC_RADIO_A,IDC_RADIO_B);
 
+	if (IDC_RADIO_A == radioNum)
+	{
+		pswType = 0x0A;
+	}
+	else if (IDC_RADIO_B == radioNum)
+	{
+		pswType = 0x0B;
+	}
+	else
+	{
+		AfxMessageBox(_T("请选择密钥设置！"));
+		return FALSE;
+	}
 
+	CString pswStr;
+	d_code.GetWindowText(pswStr);
+
+	CStringA pswStrA;
+	if (pswStr.GetLength() > 0)
+	{
+		pswStrA = pswStr;
+	}
+	else
+	{
+		pswStrA = "0xFFFFFFFFFFFF";
+	}
+
+	memset(pswBuf,NULL,bufLen);
+	char* c = pswStrA.GetBuffer();
+	for (int i = 0; i < pswStrA.GetLength(); ++i)
+	{
+		memcpy(&pswBuf[i],&c[i],sizeof(char));
+	}
+
+	return TRUE;
+}
 
 
 
@@ -224,14 +371,22 @@ void CFridDlg::OnBnClickedButton2EmQueryBalance()
 	CString strBlock;
 	m_EMSectionCtrl.GetWindowText(strBlock);
 
-	unsigned char pswtype = 0x0A;
-	unsigned char psw[] = "0xFFFFFFFFFFFF";
+	unsigned char pswType = NULL;
+	const int len = 256;
+	unsigned char pswBuf[len];
+	if (!GetPswData(pswType,pswBuf,len))
+		return;
 
-	CString strMoney;
-	m_EMRechargeMoneyCtrl.GetWindowText(strMoney);
-	long lMoney = atol(strMoney);
 
-	int rst = read_account(atoi(strPage),atoi(strBlock),pswtype,psw,&lMoney);
+	long lMoney = 0l;
+	int rst = read_account(atoi(strPage),atoi(strBlock),pswType,pswBuf,&lMoney);
+
+	if (ErrMsg(rst))
+	{
+		CString str;
+		str.Format(_T("%l"),lMoney);
+		m_EMBalanceCtrl.SetWindowText(str);
+	}
 
 }
 
@@ -245,13 +400,27 @@ void CFridDlg::OnBnClickedButton3EmRecharge()
 	CString strBlock;
 	m_EMSectionCtrl.GetWindowText(strBlock);
 
-	unsigned char pswtype = 0x0A;
-	unsigned char psw[] = "0xFFFFFFFFFFFF";
+	unsigned char pswType = NULL;
+	const int len = 256;
+	unsigned char pswBuf[len];
+	if (!GetPswData(pswType,pswBuf,len))
+		return;
 
 	CString strAccount;
 	m_EMRechargeMoneyCtrl.GetWindowText(strAccount);
 
-	int rst = add_account(atoi(strPage),atoi(strBlock),pswtype,psw,atoi(strAccount));
+	if (0 == strAccount.GetLength())
+	{
+		AfxMessageBox(_T("请输入充值金额"));
+		return;
+	}
+
+	int rst = add_account(atoi(strPage),atoi(strBlock),pswType,pswBuf,atoi(strAccount));
+
+	if (ErrMsg(rst))
+	{
+		m_EMStatueCtrl.SetWindowText(_T("充值成功"));
+	}
 }
 
 // 电子钱包－扣款
@@ -264,26 +433,40 @@ void CFridDlg::OnBnClickedButton4EmPay()
 	CString strBlock;
 	m_EMSectionCtrl.GetWindowText(strBlock);
 
-	unsigned char pswtype = 0x0A;
-	unsigned char psw[] = "0xFFFFFFFFFFFF";
+	unsigned char pswType = NULL;
+	const int len = 256;
+	unsigned char pswBuf[len];
+	if (!GetPswData(pswType,pswBuf,len))
+		return;
 
 
 	CString strPay;
 	m_EMPayMoneyCtrl.GetWindowText(strPay);
 
-	int rst = sub_account(atoi(strPage),atoi(strBlock),pswtype,psw,atoi(strPay));
+	if (0 == strPay.GetLength())
+	{
+		AfxMessageBox(_T("请输入扣款金额"));
+		return;
+	}
+
+
+	int rst = sub_account(atoi(strPage),atoi(strBlock),pswType,pswBuf,atoi(strPay));
+
+	if (ErrMsg(rst))
+	{
+		m_EMStatueCtrl.SetWindowText(_T("扣款成功"));
+	}
 }
 
-bool Ra=0;
-bool Rb=0;
 
 void CFridDlg::OnRada() 
 {
 	Ra=1;
-	
+	Rb = 0;
 }
 void CFridDlg::OnRadb() 
 {
+	Ra = 0;
 	Rb=1;
 }
 
@@ -345,6 +528,7 @@ void CFridDlg::stringtohex(CString str, unsigned char *buff)
 	int len=str.GetLength();
 	unsigned char buf[1024];
 	int j;
+	int i;
 	char ch;
 	
 	str.MakeUpper();

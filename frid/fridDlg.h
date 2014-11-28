@@ -61,6 +61,8 @@ public:
 	afx_msg void OnEnChangeEdit1();
 
 
+	bool Ra;
+	bool Rb;
 
 
 
@@ -90,6 +92,8 @@ public:
 	afx_msg void OnBnClickedButton3EmRecharge();
 	afx_msg void OnBnClickedButton4EmPay();
 
+	BOOL GetPswData(unsigned char& pswType,unsigned char* pswBuf,const int bufLen);
+	BOOL ErrMsg(const int resultCode);
 };
 
 //{{AFX_INSERT_LOCATION}}
