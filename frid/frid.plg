@@ -6,21 +6,16 @@
 --------------------Configuration: frid - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSPD619.tmp" with contents
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSPB8A6.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/frid.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Users\Administrator\Desktop\frid\frid.cpp"
-"C:\Users\Administrator\Desktop\frid\fridDlg.cpp"
+"C:\Users\Administrator\Desktop\WuLianWang.git\trunk\frid\fridDlg.cpp"
 ]
-Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSPD619.tmp" 
+Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSPB8A6.tmp" 
 Creating command line "link.exe ZM124U.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/frid.pdb" /debug /machine:I386 /out:"Debug/frid.exe" /pdbtype:sept  .\Debug\frid.obj .\Debug\fridDlg.obj .\Debug\StdAfx.obj .\Debug\frid.res "
 <h3>Output Window</h3>
 Compiling...
 fridDlg.cpp
-Generating Code...
-Compiling...
-frid.cpp
-Generating Code...
 Linking...
 
 

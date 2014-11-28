@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "frid.h"
 #include "fridDlg.h"
+#include "ZM124U.h"
+#include "Resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -73,6 +75,10 @@ void CFridDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CFridDlg)
+	DDX_Control(pDX, IDC_BUTN_KEY, m_a);
+	DDX_Control(pDX, IDC_EDIT_CODE, d_code);
+	DDX_Control(pDX, IDC_COMBO_BLOCK, d_block);
+	DDX_Control(pDX, IDC_COMBO_PAGE, d_page);
 	DDX_Control(pDX, IDC_BUTN_UID, m_uid);
 	DDX_Control(pDX, IDC_BUTN_OPEN, m_open);
 	DDX_Control(pDX, IDC_EDIkey, m_Key);
@@ -93,9 +99,10 @@ BEGIN_MESSAGE_MAP(CFridDlg, CDialog)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_RADA, OnRada)
 	ON_BN_CLICKED(IDC_RADB, OnRadb)
-	ON_BN_CLICKED(IDC_BUTkey, OnBUTkey)
 	ON_BN_CLICKED(IDC_BUTN_OPEN, OnButnOpen)
 	ON_BN_CLICKED(IDC_BUTN_UID, OnButnUid)
+	ON_BN_CLICKED(IDC_BUTN_KEY, OnButnKey)
+	ON_BN_CLICKED(IDC_BUTN_READ_BLOCK, OnButnReadBlock)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON2_EM, CFridDlg::OnBnClickedButton2EmQueryBalance)
 	ON_BN_CLICKED(IDC_BUTTON1_EM, CFridDlg::OnBnClickedButton1EmInit)
@@ -281,26 +288,6 @@ void CFridDlg::OnRadb()
 }
 
 
-
-
-void CFridDlg::OnBUTkey() 
-{
-	m_Key.SetWindowText("0xFFFFFFFFFFFF");
-}
-
-/*void CFridDlg::OnUpdateEDIkey() 
-{
-	if(Ra&&OnBUTkey){
-	m_Key="A密钥：0x0A";
-	}
-	else if(Rb&&OnBUTkey){
-	m_Key="B密钥：0x0B";
-	}
-	else{m_Key="0";}
-	
-}*/
-
-
 void CFridDlg::OnButnOpen() 
 {
 	// TODO: Add your control notification handler code here
@@ -334,3 +321,125 @@ void CFridDlg::OnButnUid()
 	   m_uid.SetWindowText("获取UID失败");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+void CFridDlg::OnButnKey() 
+{
+	// TODO: Add your control notification handler code here
+	d_code.SetWindowText("FFFFFFFFFFFF");
+//	GetDlgItem(IDC_EDIT_CODE)->SetWindowText("FFFFFFFFFFFF");
+}
+
+
+void CFridDlg::stringtohex(CString str, unsigned char *buff)
+{
+	CString s1;
+	int len=str.GetLength();
+	unsigned char buf[1024];
+	int j;
+	char ch;
+	
+	str.MakeUpper();
+	
+	for (int i=0;i<len;i++)  //检测到A-F的情况
+	{
+		ch=str[i];
+		
+		if (ch>0x40)
+		{
+			buf[i]=(unsigned char)ch-0x37;
+		} 
+		else
+		{
+			buf[i]=(unsigned char)atoi(&ch); //将字符窜转换为整数   atoi(char *p)
+		}
+	}
+	
+	for (i=0;i<1024;i++)
+	{
+		buff[i]=0;
+	}
+	len+=1;
+	
+	for (j=0,i=0;j<len/2;)
+	{
+		buff[j]=(unsigned char)(buf[i++]<<4);
+		buff[j++]|=buf[i++];
+	}
+}
+
+
+void CFridDlg::OnButnReadBlock() 
+{
+	// TODO: Add your control notification handler code here
+	int page;
+	int block;
+	unsigned char pswtype;
+	unsigned char psw[1024];
+	unsigned char buff[1024];
+	int buff_len;
+	CString s0,s1,getcode,code;
+
+	page = d_page.GetCurSel();
+	block = d_block.GetCurSel();
+	UINT Key = GetCheckedRadioButton(IDC_RADIO_A,IDC_RADIO_B);
+	switch (Key)
+	{
+	case IDC_RADIO_A : pswtype = 0x0A;  break;
+	case IDC_RADIO_B : pswtype = 0x0B;  break;
+	default : break;
+	}
+
+
+	
+UpdateData(TRUE);
+d_code.GetWindowText(getcode);
+stringtohex(getcode,psw);	
+code="FFFFFFFFFFFF";
+
+if(getcode == code)
+{
+		int j = read_block(page,block,pswtype,psw,buff,&buff_len);
+		if(j == 0)
+		{
+			s0.Empty();
+			for (int k=0;k<buff_len;k++)
+			{
+				char ch = buff[k];
+				s1.Format("%02x",buff[k]);
+				s0+=s1;
+			}
+
+			switch(block)
+			{
+			case 0: GetDlgItem(IDC_EDIT_B0)->SetWindowText(s0); break;
+			case 1: GetDlgItem(IDC_EDIT_B1)->SetWindowText(s0); break;
+			case 2: GetDlgItem(IDC_EDIT_B2)->SetWindowText(s0); break;
+			case 3: GetDlgItem(IDC_EDIT_B3)->SetWindowText(s0); break;
+			default: break;
+			}
+		}
+		else
+		{
+		switch (block)
+			{
+			case 0: GetDlgItem(IDC_EDIT_B0)->SetWindowText("读取块0信息失败！"); break;
+			case 1: GetDlgItem(IDC_EDIT_B1)->SetWindowText("读取块1信息失败！"); break;
+			case 2: GetDlgItem(IDC_EDIT_B2)->SetWindowText("读取块2信息失败！"); break;
+			case 3: GetDlgItem(IDC_EDIT_B3)->SetWindowText("读取块3信息失败！"); break;
+			default:break;
+			}
+		}
+}
+else 	MessageBox("输入密码错误！");
+}
+
+

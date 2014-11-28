@@ -21,6 +21,10 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CFridDlg)
 	enum { IDD = IDD_FRID_DIALOG };
+	CButton	m_a;
+	CEdit	d_code;
+	CComboBox	d_block;
+	CComboBox	d_page;
 	CButton	m_uid;
 	CButton	m_open;
 	CEdit	m_Key;
@@ -28,6 +32,7 @@ public:
 
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CFridDlg)
+	public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
@@ -44,12 +49,14 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnRada();
 	afx_msg void OnRadb();
-	afx_msg void OnBUTkey();
 	afx_msg void OnButnOpen();
 	afx_msg void OnButnUid();
+	afx_msg void OnButnKey();
+	afx_msg void OnButnReadBlock();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
+	void stringtohex(CString str, unsigned char *buff);
 	afx_msg void OnBnClickedSta2();
 	afx_msg void OnEnChangeEdit1();
 
