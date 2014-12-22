@@ -324,6 +324,16 @@ BOOL CFridDlg::GetPswData(unsigned char& pswType,unsigned char* pswBuf,const int
 		return FALSE;
 	}
 
+	char c[256];
+	d_code.GetWindowTextA(c,bufLen);
+
+	memset(pswBuf,NULL,bufLen);
+	for (int i = 0; i < d_code.GetWindowTextLength(); ++i)
+	{
+		memcpy(&pswBuf[i],&c[i],sizeof(char));
+	}
+
+	/*
 	CString pswStr;
 	d_code.GetWindowText(pswStr);
 
@@ -343,6 +353,7 @@ BOOL CFridDlg::GetPswData(unsigned char& pswType,unsigned char* pswBuf,const int
 	{
 		memcpy(&pswBuf[i],&c[i],sizeof(char));
 	}
+	*/
 
 	return TRUE;
 }
@@ -353,12 +364,31 @@ BOOL CFridDlg::GetPswData(unsigned char& pswType,unsigned char* pswBuf,const int
 void CFridDlg::OnBnClickedButton1EmInit()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	m_EMRechargeMoneyCtrl.SetWindowText(_T(""));
-	m_EMPayMoneyCtrl.SetWindowText(_T(""));
-	m_EMStatueCtrl.SetWindowText(_T(""));
-	m_EMSectorCtrl.SetCurSel(-1);
-	m_EMSectionCtrl.SetCurSel(-1);
-	m_EMBalanceCtrl.SetWindowText(_T(""));
+	CString strPage;
+	m_EMSectorCtrl.GetWindowText(strPage);
+
+	CString strBlock;
+	m_EMSectionCtrl.GetWindowText(strBlock);
+
+	unsigned char pswType;
+	const int len = 256;
+	unsigned char pswBuf[len];
+	if (!GetPswData(pswType,pswBuf,len))
+		return;
+
+
+	long lMoney = 0l;
+	int rst =  write_account(atoi(strPage),atoi(strBlock),pswType,pswBuf,lMoney);
+
+	if (ErrMsg(rst))
+	{
+		m_EMRechargeMoneyCtrl.SetWindowText(_T(""));
+		m_EMPayMoneyCtrl.SetWindowText(_T(""));
+		m_EMStatueCtrl.SetWindowText(_T(""));
+		m_EMSectorCtrl.SetCurSel(-1);
+		m_EMSectionCtrl.SetCurSel(-1);
+		m_EMBalanceCtrl.SetWindowText(_T(""));
+	}
 }
 
 // 电子钱包－查询余额
